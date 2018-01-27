@@ -534,3 +534,23 @@ java.net.SocketTimeoutException: Timeout on Read
 16:34:28.226 [qtp983142079-26] INFO  radiohere.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 48}
 16:34:28.226 [qtp983142079-37] INFO  radiohere.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 48}
 16:34:28.226 [qtp983142079-22] INFO  radiohere.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 48}
+16:39:31.540 [Scheduler-1900739282] ERROR radiohere.service - {:msg "WS Error happened", :line 47}
+java.net.SocketTimeoutException: Timeout on Read
+	at org.eclipse.jetty.websocket.common.io.AbstractWebSocketConnection.onReadTimeout(AbstractWebSocketConnection.java:588)
+	at org.eclipse.jetty.io.AbstractConnection.onFillInterestedFailed(AbstractConnection.java:168)
+	at org.eclipse.jetty.websocket.common.io.AbstractWebSocketConnection.onFillInterestedFailed(AbstractWebSocketConnection.java:534)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.failed(AbstractConnection.java:279)
+	at org.eclipse.jetty.io.FillInterest.onFail(FillInterest.java:125)
+	at org.eclipse.jetty.io.AbstractEndPoint.onIdleExpired(AbstractEndPoint.java:167)
+	at org.eclipse.jetty.io.IdleTimeout.checkIdleTimeout(IdleTimeout.java:166)
+	at org.eclipse.jetty.io.IdleTimeout$1.run(IdleTimeout.java:50)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+16:39:31.542 [Scheduler-1900739282] INFO  radiohere.service - {:msg "WS Closed:", :reason "Idle Timeout", :line 48}
+17:03:50.654 [nREPL-worker-16] INFO  o.a.http.impl.execchain.RetryExec - I/O exception (java.net.SocketException) caught when processing request to {}->http://api.songkick.com:80: Connection reset
+17:03:50.655 [nREPL-worker-16] INFO  o.a.http.impl.execchain.RetryExec - Retrying request to {}->http://api.songkick.com:80

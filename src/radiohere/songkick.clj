@@ -77,13 +77,17 @@
      :tracks []
      }))
 
-(defn find-gigs [metro-area callback]
+(defn find-gigs-by-area [metro-area callback]
   (let [url (format gig-url metro-area)
         body (get-json url)
         gigs (get-in body [:resultsPage :results :event])
         mapped-gigs (map extract-gig gigs)]
     (println "finding gigs in area" metro-area " found " (count mapped-gigs))
     (doseq [g mapped-gigs] (callback g))))
-(find-gigs 24426 #(println %))
+(find-gigs-by-area 24426 #(println %))
 
+(defn find-gigs-by-address [address kmAway callback]
+  (let [metro-areas (find-metro-area-from-address address 30)]
+    (doseq [area metro-areas] (find-gigs-by-area (:id area) callback))))
+(find-gigs-by-address "N5 2QT" 10 #(println %))
 
