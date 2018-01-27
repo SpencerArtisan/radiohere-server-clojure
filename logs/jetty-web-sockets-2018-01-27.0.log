@@ -182,3 +182,25 @@ java.net.SocketTimeoutException: Timeout on Read
 14:05:37.204 [qtp2121252460-24] INFO  io.pedestal.http - {:msg "GET /", :line 78}
 14:05:37.206 [qtp2121252460-24] INFO  io.pedestal.http.cors - {:msg "cors request processing", :origin "", :allowed true, :line 84}
 14:05:37.214 [qtp2121252460-24] INFO  io.pedestal.http.cors - {:msg "cors response processing", :cors-headers {"Access-Control-Allow-Origin" "", "Access-Control-Allow-Credentials" "true", "Access-Control-Expose-Headers" "Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, X-Xss-Protection, Content-Type"}, :line 111}
+14:10:22.156 [qtp2121252460-24] INFO  jetty-web-sockets.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 38}
+14:10:22.156 [qtp2121252460-19] INFO  jetty-web-sockets.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 38}
+14:12:53.474 [qtp2121252460-19] INFO  jetty-web-sockets.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 38}
+14:21:28.771 [Scheduler-2106495350] ERROR jetty-web-sockets.service - {:msg "WS Error happened", :line 37}
+java.net.SocketTimeoutException: Timeout on Read
+	at org.eclipse.jetty.websocket.common.io.AbstractWebSocketConnection.onReadTimeout(AbstractWebSocketConnection.java:588)
+	at org.eclipse.jetty.io.AbstractConnection.onFillInterestedFailed(AbstractConnection.java:168)
+	at org.eclipse.jetty.websocket.common.io.AbstractWebSocketConnection.onFillInterestedFailed(AbstractWebSocketConnection.java:534)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.failed(AbstractConnection.java:279)
+	at org.eclipse.jetty.io.FillInterest.onFail(FillInterest.java:125)
+	at org.eclipse.jetty.io.AbstractEndPoint.onIdleExpired(AbstractEndPoint.java:167)
+	at org.eclipse.jetty.io.IdleTimeout.checkIdleTimeout(IdleTimeout.java:166)
+	at org.eclipse.jetty.io.IdleTimeout$1.run(IdleTimeout.java:50)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+14:21:28.772 [Scheduler-2106495350] INFO  jetty-web-sockets.service - {:msg "WS Closed:", :reason "Idle Timeout", :line 38}
+14:24:10.075 [qtp2121252460-21] INFO  jetty-web-sockets.service - {:msg "WS Closed:", :reason "WebSocket Read EOF", :line 38}

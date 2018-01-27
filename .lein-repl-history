@@ -32,3 +32,4 @@ exit
 (def serv (run-dev))
 exit
 (def serv (run-dev))
+(require 'jetty-web-sockets.service :reload)

@@ -20,10 +20,16 @@
 
 (def ws-clients (atom {}))
 
-(def test-artist {"artist" "Pavement"})
+(def test-gig {
+               "venueName" "Garage"
+               "date" "2018-02-24"
+               "distance" 0.42
+               "artist" "Pavement"
+               "tracks" [ {"name" "Zurich is Stained" "streamUrl" "https://api.soundcloud.com/tracks/63481939/stream?client_id=ab2cd50270f2b1097c169d43f06a3d17"}]
+})
 
 (defn send-gigs [send-ch]
-  (async/put! send-ch (json/write-str test-artist)))
+  (async/put! send-ch (json/write-str test-gig)))
 
 (defn new-ws-client
   [ws-session send-ch]
