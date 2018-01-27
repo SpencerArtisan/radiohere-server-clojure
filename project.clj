@@ -26,6 +26,8 @@
                  ;; [io.pedestal/pedestal.immutant "0.5.1"]
                  ;; [io.pedestal/pedestal.tomcat "0.5.1"]
 
+                 [clj-http "3.4.1"]
+
                  [ch.qos.logback/logback-classic "1.1.7" :exclusions [org.slf4j/slf4j-api]]
                  [org.slf4j/jul-to-slf4j "1.7.21"]
                  [org.slf4j/jcl-over-slf4j "1.7.21"]

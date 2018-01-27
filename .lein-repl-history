@@ -35,3 +35,24 @@ exit
 (require 'jetty-web-sockets.service :reload)
 exit
 (def serv (run-dev))
+exit
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+(require 'jetty-web-sockets.service :reload)
+(require 'radiohere.service :reload)
+exit
+(def serv (run-dev))
+(require 'radiohere.songkick :reload)
+(require 'radiohere.service :reload)
+exit
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+(require 'radiohere.service :reload)
+(require 'radiohere.songkick :reload)
+(require 'radiohere.service :reload)
+(require 'radiohere.songkick :reload)
+(require 'radiohere.service :reload)

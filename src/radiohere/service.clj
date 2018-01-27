@@ -7,6 +7,7 @@
             [ring.util.response :as ring-resp]
             [clojure.core.async :as async]
             [clojure.data.json :as json]
+            [radiohere.songkick :as songkick]
             [io.pedestal.http.jetty.websockets :as ws])
   (:import [org.eclipse.jetty.websocket.api Session]))
 
@@ -21,18 +22,22 @@
 (def ws-clients (atom {}))
 
 (def test-gig {
-               "venueName" "Garage"
-               "date" "2018-02-24"
-               "distance" 0.42
-               "artist" "Pavement"
-               "tracks" [ {"name" "Zurich is Stained" "streamUrl" "https://api.soundcloud.com/tracks/63481939/stream?client_id=ab2cd50270f2b1097c169d43f06a3d17"}]
+               :venueName "Garage"
+               :date "2018-02-24"
+               :distance 0.42
+               :artist "Pavement"
+               :tracks [ {:name "Zurich is Stained" :streamUrl "https://api.soundcloud.com/tracks/63481939/stream?client_id=ab2cd50270f2b1097c169d43f06a3d17"}]
 })
+(json/write-str test-gig)
 
 (defn send-gigs [send-ch]
-  (async/put! send-ch (json/write-str test-gig)))
+  (println "Begin send gigs")
+  (songkick/find-gigs 24426 #(async/put! send-ch (json/write-str %)))
+  (println "End send gigs"))
 
 (defn new-ws-client
   [ws-session send-ch]
+  (println "New WS client connected")
   (send-gigs send-ch)
   (swap! ws-clients assoc ws-session send-ch))
 
