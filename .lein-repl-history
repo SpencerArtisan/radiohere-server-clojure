@@ -1,0 +1,34 @@
+(def serv (run-dev))
+w = new WebSocket("ws://localhost:8080/ws")
+w.onmessage = function(e) { console.log(e.data); }
+w.onclose = function(e) {  console.log("The connection to the server has closed."); }
+w.send("Hello from the Client!");
+exit
+(def serv (run-dev))
+(service/send-and-close!)
+(def serv (run-dev))
+(service/send-and-close!)
+(server/stop serv))
+(server/stop serv)
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+exit
+(def serv (run-dev))
+(require 'jetty-web-sockets.service
+)
+(require 'jetty-web-sockets.service :reload)
+(route/print-routes (table-routes service/routes))
+(require 'jetty-web-sockets.service :reload)
+(server/stop serv)
+(def serv (run-dev))
+ex
+exit
+(require 'jetty-web-sockets.service :reload)
+(def serv (run-dev))
+exit
+(def serv (run-dev))
