@@ -1,7 +1,7 @@
-(ns jetty-web-sockets.server
+(ns radiohere.server
   (:gen-class) ; for -main method in uberjar
   (:require [io.pedestal.http :as server]
-            [jetty-web-sockets.service :as service]))
+            [radiohere.service :as service]))
 
 ;; This is an adapted service map, that can be started and stopped
 ;; From the REPL you can call server/start and server/stop on this service

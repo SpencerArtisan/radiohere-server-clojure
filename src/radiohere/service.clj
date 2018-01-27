@@ -1,4 +1,4 @@
-(ns jetty-web-sockets.service
+(ns radiohere.service
   (:require [io.pedestal.http :as http]
             [io.pedestal.log :as log]
             [io.pedestal.http.route :as route]
@@ -12,7 +12,7 @@
 
 (defn home-page
   [request]
-  (ring-resp/response "Hello New World!"))
+  (ring-resp/response "Radiohere"))
 
 (defroutes routes
   [[["/" {:get home-page}

@@ -1,8 +1,8 @@
-(ns jetty-web-sockets.service-test
+(ns radiohere.service-test
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as http]
-            [jetty-web-sockets.service :as service]))
+            [radiohere.service :as service]))
 
 (def service
   (::http/service-fn (http/create-servlet service/service)))

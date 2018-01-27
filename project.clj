@@ -10,7 +10,7 @@
 ;
 ; You must not remove this notice, or any other, from this software.
 
-(defproject jetty-web-sockets "0.5.1"
+(defproject radiohere "0.5.1"
   :description "Sample of web sockets with Jetty"
   :url "http://pedestal.io/samples/index"
   :license {:name "Eclipse Public License"
@@ -33,6 +33,6 @@
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   :pedantic? :abort
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "jetty-web-sockets.server/run-dev"]}}
-             :uberjar {:aot [jetty-web-sockets.server]}}
-  :main ^{:skip-aot true} jetty-web-sockets.server)
+  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "radiohere.server/run-dev"]}}
+             :uberjar {:aot [radiohere.server]}}
+  :main ^{:skip-aot true} radiohere.server)
