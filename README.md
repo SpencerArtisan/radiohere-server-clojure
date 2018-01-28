@@ -14,15 +14,15 @@ To get an interactive development environment run:
 
 To run server
 
-   (def serv (run-dev))
+    (def serv (run-dev))
 
 To check it is working
 
-   localhost:8080
+    localhost:8080
 
 To apply code changes
 
-   (require 'radiohere.service :reload)
-   (require 'radiohere.songkick :reload)
+    (require 'radiohere.service :reload)
+    (require 'radiohere.songkick :reload)
 
 
