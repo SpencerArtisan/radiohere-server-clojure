@@ -1,42 +1,28 @@
-# Using WebSockets in Jetty
+# radiohere
 
-This sample illustrates how to use WebSockets with Pedestal and Jetty.
+A music discovery app.
 
-## Getting started
+## Overview
 
-1. Start a REPL with `lein repl`
-2. Start the server within the REPL with `(def serv (run-dev))`
-3. In your browser's JavaScript console
+The back-end is clojure websockets using Pedestal.  It provides information on gigs from songkick and sample songs from soundcloud.
 
-```javascript
-w = new WebSocket("ws://localhost:8080/ws")
-w.onmessage = function(e) { console.log(e.data); }
-w.onclose = function(e) {  console.log("The connection to the server has closed."); }
-w.send("Hello from the Client!");
-```
+## Setup
 
-You'll notice the log message in Clojure REPL
+To get an interactive development environment run:
 
-4. Send a message to the client and close with `(service/send-and-close!)`
+    lein repl
 
-## Configuration
+To run server
 
-To configure logging see config/logback.xml. By default, the app logs to stdout and logs/.
-To learn more about configuring Logback, read its [documentation](http://logback.qos.ch/documentation.html).
+   (def serv (run-dev))
 
-## Links
-* [Other examples](https://github.com/pedestal/samples)
+To check it is working
 
-License
--------
-Copyright 2014 Cognitect, Inc.
+   localhost:8080
 
-The use and distribution terms for this software are covered by the
-Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0)
-which can be found in the file epl-v10.html at the root of this distribution.
+To apply code changes
 
-By using this software in any fashion, you are agreeing to be bound by
-the terms of this license.
+   (require 'radiohere.service :reload)
+   (require 'radiohere.songkick :reload)
 
-You must not remove this notice, or any other, from this software.
 
