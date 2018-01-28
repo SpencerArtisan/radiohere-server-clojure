@@ -48,5 +48,5 @@
               ::http/resource-path "/public"
               ::http/type :jetty
               ::http/container-options {:context-configurator #(ws/add-ws-endpoints % ws-paths)}
-              ::http/port (or (env :port) 8080)})
+              ::http/port (Integer. (or (env :port) 8080))})
 
