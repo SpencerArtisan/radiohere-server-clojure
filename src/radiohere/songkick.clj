@@ -1,5 +1,6 @@
 (ns radiohere.songkick
   (:require [clj-http.client]
+            [radiohere.soundcloud :as soundcloud]
             [clojure.data.json :as json]
 ))
 
@@ -60,13 +61,12 @@
     (filter #(< (:kmAway %) kmAway)
       (map #(assoc % :kmAway (kmBetween (:lat %) (:lon %) lat lon)) 
            (distinct-by :id (map extract-area locations))))))
-(find-metro-area 40.6949815 -73.9982914 100)
+;(find-metro-area 40.6949815 -73.9982914 100)
 
 (defn find-metro-area-from-address [address kmAway]
   (let [latlon (find-lat-long address)]
     (find-metro-area (:lat latlon) (:lng latlon) kmAway)))
-(find-metro-area-from-address "London" 20)
-(find-metro-area-from-address "Limoges" 50)
+;(find-metro-area-from-address "London" 20)
 
 (defn extract-gig [gig]
   (let [venueName (get-in gig [:venue :displayName])
@@ -97,12 +97,14 @@
         metro-areas (find-metro-area-from-address address 30)
         gigs (mapcat #(find-gigs-by-area (:id %)) metro-areas)
         gigs-with-distance (map #(assoc % :distance (kmBetween (:lat %) (:lon %) lat lon)) gigs)
-        close-gigs (filter #(< (:distance %) kmAway) gigs-with-distance)] 
-        (doall (map callback close-gigs))))
+        close-gigs (filter #(< (:distance %) kmAway) gigs-with-distance)
+        gigs-with-tracks (map #(assoc % :tracks (soundcloud/find-tracks (:artist %))) close-gigs)]
+        (doall (map callback gigs-with-tracks))))
 ;(find-gigs-by-address "N5 2QT" 3 #(println %))
 
 (defn find-gigs-by-keyword [keyword callback]
   (println "Finding songs using keyword " keyword)
-  (identity {:artist keyword}))
-(find-gigs-by-keyword "aaa" println)
+  (let [gig {:artist keyword :tracks (soundcloud/find-tracks keyword)}]
+    (callback gig)))
+;(find-gigs-by-keyword "Malkmus" println)
 
