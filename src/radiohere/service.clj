@@ -9,6 +9,7 @@
             [clojure.data.json :as json]
             [clojure.string :as str]
             [radiohere.songkick :as songkick]
+            [environ.core :refer [env]]
             [io.pedestal.http.jetty.websockets :as ws])
   (:import [org.eclipse.jetty.websocket.api Session]))
 
@@ -47,5 +48,5 @@
               ::http/resource-path "/public"
               ::http/type :jetty
               ::http/container-options {:context-configurator #(ws/add-ws-endpoints % ws-paths)}
-              ::http/port 8080})
+              ::http/port (or (env :port) 8080)})
 
