@@ -22,26 +22,17 @@
 
 (def ws-ch (atom nil))
 
-(defn send-keyword-gigs [keyword]
-  (println "Begin send gigs")
-  (println "End send gigs"))
-
-(defn send-location-gigs [address distance]
-  (println "Begin send gigs")
-  (songkick/find-gigs-by-address "n5 2qt" 3 #(async/put! @ws-ch (json/write-str %)))
-  (println "End send gigs"))
-
 (defn send-gigs [message]
   (println "Websocket invoked with message " message)
-  (let [args (str/split message #",")]
+  (let [args (str/split message #";")]
     (if (= 1 (count args))
       (songkick/find-gigs-by-keyword (get args 0) #(async/put! @ws-ch (json/write-str %)))
-      (songkick/find-gigs-by-address (get args 0) (get args 1) #(async/put! @ws-ch (json/write-str %)))
+      (songkick/find-gigs-by-address (get args 0) (read-string (get args 1)) #(async/put! @ws-ch (json/write-str %)))
 )))
 
 (defn new-ws-client
   [ws-session send-ch]
-  (println "New WS client connected 2")
+  (println "New WS client connected")
   (swap! ws-ch (fn [prev] (identity send-ch))))
 
 (def ws-paths
