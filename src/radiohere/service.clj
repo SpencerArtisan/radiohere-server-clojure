@@ -7,6 +7,7 @@
             [ring.util.response :as ring-resp]
             [clojure.core.async :as async]
             [clojure.data.json :as json]
+            [clojure.string :as str]
             [radiohere.songkick :as songkick]
             [io.pedestal.http.jetty.websockets :as ws])
   (:import [org.eclipse.jetty.websocket.api Session]))
@@ -19,31 +20,33 @@
   [[["/" {:get home-page}
      ^:interceptors [(body-params/body-params) http/html-body]]]])
 
-(def ws-clients (atom {}))
+(def ws-ch (atom nil))
 
-(def test-gig {
-               :venueName "Garage"
-               :date "2018-02-24"
-               :distance 0.42
-               :artist "Pavement"
-               :tracks [ {:name "Zurich is Stained" :streamUrl "https://api.soundcloud.com/tracks/63481939/stream?client_id=ab2cd50270f2b1097c169d43f06a3d17"}]
-})
-(json/write-str test-gig)
-
-(defn send-gigs [send-ch]
+(defn send-keyword-gigs [keyword]
   (println "Begin send gigs")
-  (songkick/find-gigs-by-address "n5 2qt" 3 #(async/put! send-ch (json/write-str %)))
   (println "End send gigs"))
+
+(defn send-location-gigs [address distance]
+  (println "Begin send gigs")
+  (songkick/find-gigs-by-address "n5 2qt" 3 #(async/put! @ws-ch (json/write-str %)))
+  (println "End send gigs"))
+
+(defn send-gigs [message]
+  (println "Websocket invoked with message " message)
+  (let [args (str/split message #",")]
+    (if (= 1 (count args))
+      (songkick/find-gigs-by-keyword (get args 0) #(async/put! @ws-ch (json/write-str %)))
+      (songkick/find-gigs-by-address (get args 0) (get args 1) #(async/put! @ws-ch (json/write-str %)))
+)))
 
 (defn new-ws-client
   [ws-session send-ch]
-  (println "New WS client connected")
-  (send-gigs send-ch)
-  (swap! ws-clients assoc ws-session send-ch))
+  (println "New WS client connected 2")
+  (swap! ws-ch (fn [prev] (identity send-ch))))
 
 (def ws-paths
   {"/ws" {:on-connect (ws/start-ws-connection new-ws-client)
-          :on-text (fn [msg] (log/info :msg (str "A client sent - " msg)))
+          :on-text (fn [msg] (log/info :msg (send-gigs msg)))
           :on-binary (fn [payload offset length] (log/info :msg "Binary Message!" :bytes payload))
           :on-error (fn [t] (log/error :msg "WS Error happened" :exception t))
           :on-close (fn [num-code reason-text] (log/info :msg "WS Closed:" :reason reason-text))}})

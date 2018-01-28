@@ -1,5 +1,7 @@
 pom.xml
 *jar
+*.log
+*.swp
 /classes/
 /.lein-deps-sum
 /.lein-failures

@@ -92,11 +92,17 @@
 ;(find-gigs-by-area 24426)
 
 (defn find-gigs-by-address [address kmAway callback]
+  (println "Finding gigs within " kmAway " of " address)
   (let [{lat :lat lon :lng} (find-lat-long address)
         metro-areas (find-metro-area-from-address address 30)
         gigs (mapcat #(find-gigs-by-area (:id %)) metro-areas)
         gigs-with-distance (map #(assoc % :distance (kmBetween (:lat %) (:lon %) lat lon)) gigs)
-        close-gigs (filter #(< (:distance % 999) kmAway) gigs-with-distance)] 
+        close-gigs (filter #(< (:distance %) kmAway) gigs-with-distance)] 
         (doall (map callback close-gigs))))
 ;(find-gigs-by-address "N5 2QT" 3 #(println %))
+
+(defn find-gigs-by-keyword [keyword callback]
+  (println "Finding songs using keyword " keyword)
+  (identity {:artist keyword}))
+(find-gigs-by-keyword "aaa" println)
 
