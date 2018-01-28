@@ -32,7 +32,7 @@
 
 (defn send-gigs [send-ch]
   (println "Begin send gigs")
-  (songkick/find-gigs 24426 #(async/put! send-ch (json/write-str %)))
+  (songkick/find-gigs-by-address "n5 2qt" 3 #(async/put! send-ch (json/write-str %)))
   (println "End send gigs"))
 
 (defn new-ws-client
