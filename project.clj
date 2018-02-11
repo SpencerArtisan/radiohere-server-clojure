@@ -26,7 +26,7 @@
                  [environ "1.0.0"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
-  :pedantic? :abort
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "radiohere.server/run-dev"]}}
-             :uberjar {:aot [radiohere.server]}}
-  :main ^{:skip-aot true} radiohere.server)
+  :pedantic? :abort)
+;  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "radiohere.server/run-dev"]}}
+;             :uberjar {:aot [radiohere.server]}
+;  :main ^{:skip-aot true} radiohere.server)

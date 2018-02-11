@@ -1,8 +1,6 @@
 (ns radiohere.soundcloud-test
   (:require [clojure.test :refer [deftest is]]
-            [io.pedestal.http :as http]
-            [radiohere.soundcloud :as sc]
-            [radiohere.service :as service]))
+            [radiohere.soundcloud :as sc]))
 
 
 (deftest test-extract-track
