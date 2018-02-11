@@ -18,21 +18,12 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [io.pedestal/pedestal.service "0.5.1"]
                  [org.clojure/core.async "0.2.391"]
-
-                 ;; Remove this line and uncomment one of the next lines to
-                 ;; use Immutant or Tomcat instead of Jetty:
+                 [com.stuartsierra/component "0.3.2"]
                  [io.pedestal/pedestal.jetty "0.5.1"]
                  [org.clojure/data.json "0.2.6"]
-                 ;; [io.pedestal/pedestal.immutant "0.5.1"]
-                 ;; [io.pedestal/pedestal.tomcat "0.5.1"]
-
                  [clj-http "3.4.1"]
-                 [environ "1.0.0"]
-
-                 [ch.qos.logback/logback-classic "1.1.7" :exclusions [org.slf4j/slf4j-api]]
-                 [org.slf4j/jul-to-slf4j "1.7.21"]
-                 [org.slf4j/jcl-over-slf4j "1.7.21"]
-                 [org.slf4j/log4j-over-slf4j "1.7.21"]]
+                 [reloaded.repl "0.2.4"]
+                 [environ "1.0.0"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   :pedantic? :abort

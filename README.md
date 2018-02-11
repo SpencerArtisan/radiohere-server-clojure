@@ -14,7 +14,8 @@ To get an interactive development environment run:
 
 To run server
 
-    (def serv (run-dev))
+    (require 'radiohere.system)
+    (reloaded.repl/go)
 
 To check it is working
 
@@ -22,7 +23,5 @@ To check it is working
 
 To apply code changes
 
-    (require 'radiohere.service :reload)
-    (require 'radiohere.songkick :reload)
-
+    (reloaded.repl/reset)
 

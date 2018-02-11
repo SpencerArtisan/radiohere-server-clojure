@@ -1,8 +1,6 @@
 (ns radiohere.songkick
   (:require [clj-http.client]
-            [radiohere.soundcloud :as soundcloud]
-            [clojure.data.json :as json]
-))
+            [radiohere.soundcloud :as soundcloud]))
 
 (def geo-url "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyBHWZu9leG19S5HNPn37dPzqxOtaEW9OeU")
 (def songkick-api-key "hZ33FKGXTbn0VeVh")
@@ -11,13 +9,14 @@
 (def earth-radius 3958.75)
 (def meter-conversion 1609)
 
+
 (defn distinct-by [f coll]
   (let [groups (group-by f coll)]
     (map #(first (groups %)) (distinct (map f coll)))))
 
 (defn kmBetween [lat1 lon1 lat2 lon2]
   (if (some nil? [lat1 lon1 lat2 lon2])
-    999
+    999)
   (let [dLat (Math/toRadians (- lat2 lat1))
         dLon (Math/toRadians (- lon2 lon1))
         a (+ (* (Math/sin (/ dLat 2)) 
@@ -28,23 +27,23 @@
                 (Math/sin (/ dLon 2))))
         c (* 2 (Math/atan2 (Math/sqrt a) (Math/sqrt (- 1 a))))
         dist (* earth-radius c)]
-    (/ (* dist meter-conversion) 1000.0))))
-(kmBetween 51.554004 -0.0907729999 51.5404778 -0.088469399999)
-(kmBetween 1 2 3 nil)
+    (/ (* dist meter-conversion) 1000.0)))
+;(kmBetween 51.554004 -0.0907729999 51.5404778 -0.088469399999)
+;(kmBetween 1 2 3 nil)
 
 (defn get-json
   [url]
   (:body (clj-http.client/get url {:as :json})))
-(get-json (format geo-url "n52QT"))
-(get-json (format metro-area-url 40.69 -73.99))
-(get-json (format gig-url "24426"))
+;(get-json (format geo-url "n52QT"))
+;(get-json (format metro-area-url 40.69 -73.99))
+;(get-json (format gig-url "24426"))
 
 (defn find-lat-long [address]
   (let [url (format geo-url address)
         body (get-json url)]
     (get-in body [:results 0 :geometry :location])))
-(find-lat-long "tower isle, jamaica")
-(find-lat-long "ZZZZZZZZZZZZZZZZZZZZ")
+;(find-lat-long "tower isle, jamaica")
+;(find-lat-long "ZZZZZZZZZZZZZZZZZZZZ")
 
 (defn extract-area [location]
   (let [ area (get-in location [:metroArea :displayName])
@@ -79,8 +78,7 @@
      :artist artist
      :lat lat
      :lon lon
-     :tracks []
-     }))
+     :tracks []}))
 
 (defn find-gigs-by-area [metro-area]
   (let [url (format gig-url metro-area)
@@ -99,7 +97,7 @@
         gigs-with-distance (map #(assoc % :distance (kmBetween (:lat %) (:lon %) lat lon)) gigs)
         close-gigs (filter #(< (:distance %) kmAway) gigs-with-distance)
         gigs-with-tracks (map #(assoc % :tracks (soundcloud/find-tracks (:artist %))) close-gigs)]
-        (doall (map callback gigs-with-tracks))))
+    (doall (map callback gigs-with-tracks))))
 ;(find-gigs-by-address "N5 2QT" 3 #(println %))
 
 (defn find-gigs-by-keyword [keyword callback]

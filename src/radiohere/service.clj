@@ -1,7 +1,5 @@
 (ns radiohere.service
   (:require [io.pedestal.http :as http]
-            [io.pedestal.log :as log]
-            [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.http.route.definition :refer [defroutes]]
             [ring.util.response :as ring-resp]
@@ -12,6 +10,8 @@
             [environ.core :refer [env]]
             [io.pedestal.http.jetty.websockets :as ws])
   (:import [org.eclipse.jetty.websocket.api Session]))
+
+(comment
 
 (defn home-page
   [request]
@@ -28,8 +28,8 @@
   (let [args (str/split message #";")]
     (if (= 1 (count args))
       (songkick/find-gigs-by-keyword (get args 0) #(async/put! @ws-ch (json/write-str %)))
-      (songkick/find-gigs-by-address (get args 0) (read-string (get args 1)) #(async/put! @ws-ch (json/write-str %)))
-)))
+      (songkick/find-gigs-by-address (get args 0) (read-string (get args 1)) #(async/put! @ws-ch (json/write-str %))))))
+
 
 (defn new-ws-client
   [ws-session send-ch]
@@ -38,10 +38,9 @@
 
 (def ws-paths
   {"/ws" {:on-connect (ws/start-ws-connection new-ws-client)
-          :on-text (fn [msg] (log/info :msg (send-gigs msg)))
-          :on-binary (fn [payload offset length] (log/info :msg "Binary Message!" :bytes payload))
-          :on-error (fn [t] (log/error :msg "WS Error happened" :exception t))
-          :on-close (fn [num-code reason-text] (log/info :msg "WS Closed:" :reason reason-text))}})
+          :on-text (fn [msg] (send-gigs msg))
+          :on-error (fn [t] (println :msg "WS Error happened" :exception t))
+          :on-close (fn [num-code reason-text] (println :msg "WS Closed:" :reason reason-text))}})
 
 (def service {:env :prod
               ::http/routes routes
@@ -50,3 +49,4 @@
               ::http/container-options {:context-configurator #(ws/add-ws-endpoints % ws-paths)}
               ::http/port (Integer. (or (env :port) 8080))})
 
+)
