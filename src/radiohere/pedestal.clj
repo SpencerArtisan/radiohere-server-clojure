@@ -8,6 +8,7 @@
 (defn test?
   [service-map]
   (= :test (:env service-map)))
+
 (defrecord Pedestal [service-map
                      service]
   component/Lifecycle
@@ -15,12 +16,12 @@
     (if service
       this
       (let [ws-atom (atom nil)
-            with-ws-config (assoc service-map 
-                                  ::http/container-options 
+            with-ws-config (assoc service-map
+                                  ::http/container-options
                                   {:context-configurator #(ws/add-ws-endpoints % (websocket/ws-paths ws-atom))})]
         (cond-> with-ws-config
-          true                      http/create-server                  
-          (not (test? service-map)) http/start                          
+          true                      http/create-server
+          (not (test? service-map)) http/start
           true                      ((partial assoc this :ws-channel-atom ws-atom :service))))))
    (stop [this]
       (when (and service (not (test? service-map)))
