@@ -4,7 +4,8 @@
             [io.pedestal.http :as http]                      
             [clojure.string :as str]
             [radiohere.pedestal]                                       
-            [radiohere.routes]))
+            [radiohere.routes])
+  (:gen-class))
 
 (defn system
   [env]
@@ -20,5 +21,10 @@
     (radiohere.pedestal/new-pedestal)
     [:service-map])))
 
-(reloaded.repl/set-init! #(system :prod))
+
+(defn -main
+  [& args]
+  (println "\nCreating your server...")
+  (reloaded.repl/set-init! #(system :prod))
+  (reloaded.repl/go))
 
